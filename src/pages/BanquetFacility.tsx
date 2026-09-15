@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
 import { BanquetHall } from '../types/restaurant';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   Building2,
   Users,
@@ -64,7 +65,7 @@ export const BanquetFacility: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Hero Header */}
-      <section className="relative py-20 bg-[#0d1015] border-b border-[#1f242d] overflow-hidden">
+      <AnimatedSection as="section" direction="fade" duration={800} className="relative py-20 bg-[#0d1015] border-b border-[#1f242d] overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-30">
           <img
             src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=2000&q=80"
@@ -100,10 +101,10 @@ export const BanquetFacility: React.FC = () => {
             </button>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Interactive Capacity Recommendation Tool */}
-      <section className="py-12 bg-[#10141c] border-b border-[#212734]">
+      <AnimatedSection as="section" direction="up" delay={100} className="py-12 bg-[#10141c] border-b border-[#212734]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="bg-[#141924] border border-amber-500/20 p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-1 text-center md:text-left">
@@ -141,7 +142,7 @@ export const BanquetFacility: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Venues Showcase */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 space-y-16">
@@ -157,7 +158,10 @@ export const BanquetFacility: React.FC = () => {
               : guestCountFilter > 90 && guestCountFilter <= 200);
 
           return (
-            <div
+            <AnimatedSection
+              as="div"
+              direction="up"
+              delay={idx * 120}
               key={hall.id}
               className={`rounded-2xl border bg-[#12161f] overflow-hidden transition-all duration-300 shadow-2xl ${
                 isRecommended
@@ -266,13 +270,13 @@ export const BanquetFacility: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
           );
         })}
       </section>
 
       {/* Technical & Production Amenities */}
-      <section className="py-16 bg-[#0e1218] border-t border-b border-[#1f2530]">
+      <AnimatedSection as="section" direction="up" className="py-16 bg-[#0e1218] border-t border-b border-[#1f2530]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-amber-500 text-xs uppercase tracking-[0.25em] font-semibold block mb-2">
@@ -298,10 +302,10 @@ export const BanquetFacility: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Banquet Inquiry / RFP Form */}
-      <section id="banquet-rfp" className="py-20 bg-[#090b0e]">
+      <AnimatedSection as="section" id="banquet-rfp" direction="up" className="py-20 bg-[#090b0e]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="bg-[#12161f] border border-neutral-700/80 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div className="text-center space-y-2">
@@ -438,7 +442,7 @@ export const BanquetFacility: React.FC = () => {
             )}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };

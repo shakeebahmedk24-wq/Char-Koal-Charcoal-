@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
 import {
+  ShoppingCart,
   ShoppingBag,
   X,
   Plus,
@@ -9,7 +10,8 @@ import {
   Flame,
   ArrowRight,
   Clock,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 
 export const CartDrawer: React.FC = () => {
@@ -21,7 +23,9 @@ export const CartDrawer: React.FC = () => {
     removeFromCart,
     clearCart,
     setCurrentPage,
-    showToast
+    showToast,
+    addToCart,
+    menuItems
   } = useRestaurant();
 
   const [tableNumber, setTableNumber] = useState('');
@@ -87,8 +91,8 @@ export const CartDrawer: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex justify-end transition-all duration-300 ease-in-out ${
-        isCartDrawerOpen ? 'pointer-events-auto visible' : 'pointer-events-none invisible'
+      className={`fixed inset-0 z-[60] flex justify-end pointer-events-none ${
+        isCartDrawerOpen ? 'pointer-events-auto' : ''
       }`}
       aria-hidden={!isCartDrawerOpen}
     >
@@ -96,8 +100,8 @@ export const CartDrawer: React.FC = () => {
       <div
         id="cart-drawer-backdrop"
         onClick={() => setIsCartDrawerOpen(false)}
-        className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
-          isCartDrawerOpen ? 'opacity-100' : 'opacity-0'
+        className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-400 ease-in-out ${
+          isCartDrawerOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       />
 
@@ -105,7 +109,7 @@ export const CartDrawer: React.FC = () => {
       <aside
         id="cart-side-drawer"
         aria-label="Shopping Cart and Table Order"
-        className={`relative w-full max-w-md h-full bg-[#0d0f14] border-l border-[#222834] flex flex-col shadow-2xl z-10 overflow-hidden transition-transform duration-350 ease-out transform ${
+        className={`relative w-full max-w-md h-full bg-[#0d0f14] border-l border-[#222834] flex flex-col shadow-2xl z-10 overflow-hidden pointer-events-auto transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] transform ${
           isCartDrawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -113,12 +117,12 @@ export const CartDrawer: React.FC = () => {
         <div className="p-4 sm:p-5 border-b border-[#1f242d] flex items-center justify-between bg-[#13171f]/95">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingCart className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-serif-luxury text-lg font-bold text-white tracking-wide">
-                  Table Order
+                  Table Order & Cart
                 </h2>
                 {totalItems > 0 && (
                   <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-mono font-semibold">
@@ -156,25 +160,64 @@ export const CartDrawer: React.FC = () => {
             </div>
           </div>
         ) : cart.length === 0 ? (
-          /* Empty State */
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-600">
-              <Flame className="w-8 h-8 text-neutral-500" />
+          /* Empty State with Quick Add Suggestions */
+          <div className="flex-1 overflow-y-auto p-5 flex flex-col justify-between space-y-6">
+            <div className="text-center pt-4 space-y-3">
+              <div className="w-14 h-14 mx-auto rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-500">
+                <ShoppingCart className="w-6 h-6 text-amber-500" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-serif-luxury text-xl font-bold text-white">Your Cart is Empty</h3>
+                <p className="text-xs text-neutral-400 max-w-xs mx-auto leading-relaxed">
+                  Add signature items directly below, or browse our complete open-fire collection.
+                </p>
+              </div>
             </div>
-            <div className="space-y-1">
-              <h3 className="font-serif-luxury text-xl font-bold text-white">Your Order is Empty</h3>
-              <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
-                Explore our signature charcoal steaks, hearth flatbreads, and artisan cocktails to begin.
-              </p>
+
+            {/* Quick Add Recommendations directly in side drawer */}
+            <div className="space-y-2.5">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-400 uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Chef's Quick Add Selections</span>
+              </div>
+
+              <div className="space-y-2">
+                {menuItems.slice(0, 3).map(dish => (
+                  <div
+                    key={dish.id}
+                    className="p-2.5 rounded-lg bg-[#141820] border border-neutral-800 hover:border-amber-500/40 flex items-center justify-between gap-3 transition-colors"
+                  >
+                    <img
+                      src={dish.image}
+                      alt={dish.name}
+                      className="w-12 h-12 rounded object-cover shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-xs font-semibold text-white truncate">{dish.name}</h4>
+                      <p className="text-[11px] font-mono text-amber-400">{dish.price}</p>
+                    </div>
+                    <button
+                      onClick={() => addToCart(dish)}
+                      className="px-2.5 py-1.5 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-neutral-950 text-xs font-bold transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-            <button
-              id="cart-empty-browse-menu"
-              onClick={handleBrowseMenu}
-              className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-600 to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg cursor-pointer"
-            >
-              <span>Explore Menu</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+
+            <div className="pt-2 text-center">
+              <button
+                id="cart-empty-browse-menu"
+                onClick={handleBrowseMenu}
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#181d26] hover:bg-[#202734] border border-neutral-700 text-neutral-200 hover:text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
+              >
+                <span>Browse Full Hearth Menu</span>
+                <ArrowRight className="w-4 h-4 text-amber-400" />
+              </button>
+            </div>
           </div>
         ) : (
           /* Cart Items & Form */

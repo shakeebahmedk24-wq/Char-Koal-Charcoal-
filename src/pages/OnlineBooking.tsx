@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
 import { Reservation } from '../types/restaurant';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   CalendarCheck,
   Flame,
@@ -96,7 +97,7 @@ export const OnlineBooking: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Header */}
-      <section className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
+      <AnimatedSection as="section" direction="fade" duration={800} className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">
             <CalendarCheck className="w-3.5 h-3.5" />
@@ -109,9 +110,9 @@ export const OnlineBooking: React.FC = () => {
             Reserve your table over glowing Binchotan coals. No waiting, immediate confirmation voucher generated.
           </p>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <AnimatedSection as="section" direction="up" delay={80} className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         {confirmedReservation ? (
           /* Confirmation Boarding Pass Voucher */
           <div className="bg-[#12161f] border border-amber-500/50 rounded-2xl overflow-hidden shadow-2xl animate-fade-in">
@@ -390,7 +391,7 @@ export const OnlineBooking: React.FC = () => {
             </form>
           </div>
         )}
-      </section>
+      </AnimatedSection>
     </div>
   );
 };

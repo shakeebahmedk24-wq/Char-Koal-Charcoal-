@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   MapPin,
   Phone,
@@ -30,7 +31,7 @@ export const ContactUs: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Header */}
-      <section className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
+      <AnimatedSection as="section" direction="fade" duration={800} className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">
             <MapPin className="w-3.5 h-3.5" />
@@ -43,10 +44,10 @@ export const ContactUs: React.FC = () => {
             Located in the heart of the Culinary District. Reach our concierge, banquet coordinators, or valet team.
           </p>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Main Grid: Contact Info & Form */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+      <AnimatedSection as="section" direction="up" delay={80} className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left Column: Direct Info */}
           <div className="lg:col-span-5 space-y-8">
@@ -235,10 +236,10 @@ export const ContactUs: React.FC = () => {
             )}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Embedded Location Map Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+      <AnimatedSection as="section" direction="up" delay={120} className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
         <div className="rounded-2xl border border-neutral-800 overflow-hidden bg-[#12161f] shadow-2xl">
           <div className="p-4 bg-[#161c26] border-b border-neutral-800 flex items-center justify-between">
             <div className="flex items-center space-x-2 text-white">
@@ -285,7 +286,7 @@ export const ContactUs: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };

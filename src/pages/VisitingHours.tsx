@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   Clock,
   Car,
@@ -21,7 +22,7 @@ export const VisitingHours: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Header */}
-      <section className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
+      <AnimatedSection as="section" direction="fade" duration={800} className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">
             <Clock className="w-3.5 h-3.5" />
@@ -44,10 +45,10 @@ export const VisitingHours: React.FC = () => {
             <span className="text-amber-400 font-mono">Last seating 10:30 PM</span>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Main Schedule Grid */}
-      <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6">
+      <AnimatedSection as="section" direction="up" delay={80} className="py-16 max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-[#12161f] border border-neutral-700/80 rounded-2xl overflow-hidden shadow-2xl">
           <div className="p-6 border-b border-neutral-800 bg-[#161c27] flex items-center justify-between">
             <h2 className="font-serif-luxury text-xl font-bold text-white flex items-center gap-2">
@@ -139,7 +140,7 @@ export const VisitingHours: React.FC = () => {
             Reserve Your Seating Time
           </button>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };

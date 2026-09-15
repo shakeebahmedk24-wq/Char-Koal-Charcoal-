@@ -10,6 +10,7 @@ import {
   Plus,
   Minus,
   Trash2,
+  ShoppingCart,
   ShoppingBag,
   FileDown,
   Sparkles,
@@ -149,7 +150,7 @@ export const Menu: React.FC = () => {
                 onClick={() => setIsCartDrawerOpen(true)}
                 className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 text-neutral-950 text-xs font-bold uppercase tracking-wider rounded-md flex items-center justify-center gap-2 shadow-lg cursor-pointer active:scale-95 transition-all"
               >
-                <ShoppingBag className="w-4 h-4" />
+                <ShoppingCart className="w-4 h-4" />
                 <span>Order Summary ({cartTotalItems}) &bull; ${cartSubtotal.toFixed(2)}</span>
               </button>
             )}
@@ -268,13 +269,24 @@ export const Menu: React.FC = () => {
                           >
                             <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                           </button>
+                          <button
+                            onClick={() => setIsCartDrawerOpen(true)}
+                            className="ml-1 p-1 text-amber-400 hover:text-amber-300 transition-colors"
+                            title="Open cart drawer"
+                            aria-label="Open cart drawer"
+                          >
+                            <ShoppingCart className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                          </button>
                         </div>
                       ) : (
                         <button
-                          onClick={() => addToCart(item)}
-                          className="w-full sm:w-auto px-2 sm:px-3 py-1.5 rounded-md bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 text-amber-300 border border-amber-500/40 text-[10px] sm:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 transition-all cursor-pointer"
+                          onClick={() => {
+                            addToCart(item);
+                            setIsCartDrawerOpen(true);
+                          }}
+                          className="w-full sm:w-auto px-2 sm:px-3 py-1.5 rounded-md bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 text-amber-300 border border-amber-500/40 text-[10px] sm:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
-                          <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                          <ShoppingCart className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                           <span>Order</span>
                         </button>
                       )}

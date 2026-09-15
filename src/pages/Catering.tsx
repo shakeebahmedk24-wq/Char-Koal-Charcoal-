@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   Truck,
   Flame,
@@ -46,7 +47,7 @@ export const Catering: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Header */}
-      <section className="relative py-20 bg-[#0d1015] border-b border-[#1f242d] text-center overflow-hidden">
+      <AnimatedSection as="section" direction="fade" duration={800} className="relative py-20 bg-[#0d1015] border-b border-[#1f242d] text-center overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-25">
           <img
             src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=2000&q=80"
@@ -66,10 +67,10 @@ export const Catering: React.FC = () => {
             From luxury wedding estates and rooftop galas to corporate celebrations. We deploy mobile Binchotan charcoal hearths and Master Pitmasters directly to your location.
           </p>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Interactive Catering Cost Calculator */}
-      <section className="py-16 bg-[#10141c] border-b border-[#212734]">
+      <AnimatedSection as="section" direction="up" delay={80} className="py-16 bg-[#10141c] border-b border-[#212734]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="bg-[#141822] border border-amber-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
@@ -203,10 +204,10 @@ export const Catering: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Package Inclusions Detailed Cards */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
+      <AnimatedSection as="section" direction="up" className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-amber-500 text-xs uppercase tracking-[0.2em] font-semibold block mb-2">
             Detailed Menus
@@ -217,8 +218,11 @@ export const Catering: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {cateringPackages.map(pkg => (
-            <div
+          {cateringPackages.map((pkg, idx) => (
+            <AnimatedSection
+              as="div"
+              direction="up"
+              delay={idx * 100}
               key={pkg.id}
               className={`p-6 sm:p-8 rounded-2xl bg-[#12161f] border flex flex-col justify-between space-y-6 ${
                 pkg.popular
@@ -267,13 +271,13 @@ export const Catering: React.FC = () => {
                   Select This Package
                 </button>
               </div>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Catering Inquiry Form */}
-      <section id="catering-inquiry-form" className="py-16 bg-[#0c0e12] border-t border-[#1d222b]">
+      <AnimatedSection as="section" id="catering-inquiry-form" direction="up" className="py-16 bg-[#0c0e12] border-t border-[#1d222b]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="bg-[#141822] border border-neutral-700/80 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div className="text-center space-y-2">
@@ -377,7 +381,7 @@ export const Catering: React.FC = () => {
             )}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };

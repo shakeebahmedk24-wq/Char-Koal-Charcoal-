@@ -16,7 +16,7 @@ import {
   Sliders,
   Sparkles,
   MapPin,
-  ShoppingBag
+  ShoppingCart
 } from 'lucide-react';
 
 export const OffCanvasMenu: React.FC = () => {
@@ -73,8 +73,8 @@ export const OffCanvasMenu: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex justify-end lg:hidden transition-all duration-300 ease-in-out ${
-        isMobileMenuOpen ? 'pointer-events-auto visible' : 'pointer-events-none invisible'
+      className={`fixed inset-0 z-50 flex justify-end pointer-events-none ${
+        isMobileMenuOpen ? 'pointer-events-auto' : ''
       }`}
       aria-hidden={!isMobileMenuOpen}
     >
@@ -82,15 +82,15 @@ export const OffCanvasMenu: React.FC = () => {
       <div
         id="offcanvas-backdrop"
         onClick={() => setIsMobileMenuOpen(false)}
-        className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
-          isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
+        className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-400 ease-in-out ${
+          isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       />
 
       {/* Off-canvas Sliding Drawer with smooth cubic-bezier transition */}
       <div
         id="offcanvas-sidebar-drawer"
-        className={`relative w-full max-w-xs sm:max-w-sm h-full bg-[#0d0f13] border-l border-[#232832] flex flex-col shadow-2xl z-10 overflow-y-auto transition-transform duration-350 ease-out transform ${
+        className={`relative w-full max-w-xs sm:max-w-sm h-full bg-[#0d0f13] border-l border-[#232832] flex flex-col shadow-2xl z-10 overflow-y-auto pointer-events-auto transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] transform ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -113,7 +113,7 @@ export const OffCanvasMenu: React.FC = () => {
           <button
             id="offcanvas-close-btn"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 rounded-full bg-[#1b2028] text-neutral-400 hover:text-white border border-neutral-700/60 transition-colors"
+            className="p-2 rounded-full bg-[#1b2028] text-neutral-400 hover:text-white border border-neutral-700/60 transition-colors cursor-pointer"
             aria-label="Close menu"
           >
             <X className="w-5 h-5" />
@@ -135,7 +135,7 @@ export const OffCanvasMenu: React.FC = () => {
             <button
               id="offcanvas-book-btn"
               onClick={() => handleNav('booking')}
-              className="py-2.5 px-3 rounded-md bg-gradient-to-r from-amber-600 to-amber-500 text-neutral-950 font-semibold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-transform"
+              className="py-2.5 px-3 rounded-md bg-gradient-to-r from-amber-600 to-amber-500 text-neutral-950 font-semibold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-transform cursor-pointer"
             >
               <CalendarCheck className="w-4 h-4" />
               <span>Reserve Table</span>
@@ -145,7 +145,7 @@ export const OffCanvasMenu: React.FC = () => {
               id="offcanvas-call-btn"
               href="tel:+15552427562"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2.5 px-3 rounded-md bg-[#181d26] border border-amber-500/40 text-amber-300 font-semibold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
+              className="py-2.5 px-3 rounded-md bg-[#181d26] border border-amber-500/40 text-amber-300 font-semibold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-1.5 active:scale-95 transition-transform cursor-pointer"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Call Hearth</span>
@@ -156,11 +156,13 @@ export const OffCanvasMenu: React.FC = () => {
             id="offcanvas-cart-btn"
             onClick={() => {
               setIsMobileMenuOpen(false);
-              setIsCartDrawerOpen(true);
+              setTimeout(() => {
+                setIsCartDrawerOpen(true);
+              }, 100);
             }}
-            className="w-full py-2.5 px-3 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-300 font-semibold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 active:scale-95 transition-all"
+            className="w-full py-2.5 px-3 rounded-md bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 font-semibold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer"
           >
-            <ShoppingBag className="w-4 h-4 text-amber-400" />
+            <ShoppingCart className="w-4 h-4 text-amber-400" />
             <span>Table Order & Cart</span>
             {totalCartCount > 0 && (
               <span className="px-2 py-0.5 rounded-full bg-amber-500 text-neutral-950 text-[10px] font-bold font-mono">
@@ -176,19 +178,14 @@ export const OffCanvasMenu: React.FC = () => {
             Navigation Menu
           </p>
 
-          {navLinks.map((link, idx) => {
+          {navLinks.map((link) => {
             const isActive = currentPage === link.id;
             return (
               <button
                 key={link.id}
                 id={`offcanvas-link-${link.id}`}
                 onClick={() => handleNav(link.id)}
-                style={{
-                  transitionDelay: isMobileMenuOpen ? `${Math.min(idx * 30 + 50, 350)}ms` : '0ms'
-                }}
-                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-lg text-left transition-all duration-300 transform ${
-                  isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
-                } ${
+                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-medium'
                     : 'text-neutral-300 hover:text-white hover:bg-[#181d26]'
@@ -225,7 +222,7 @@ export const OffCanvasMenu: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 setIsClientEditorOpen(true);
               }}
-              className="flex items-center gap-1.5 text-neutral-300 hover:text-amber-400 transition-colors"
+              className="flex items-center gap-1.5 text-neutral-300 hover:text-amber-400 transition-colors cursor-pointer"
             >
               <Sliders className="w-3.5 h-3.5 text-amber-400" />
               <span>Client Self-Editor</span>
@@ -237,7 +234,7 @@ export const OffCanvasMenu: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 setIsHostingModalOpen(true);
               }}
-              className="flex items-center gap-1.5 text-amber-400 hover:underline transition-colors"
+              className="flex items-center gap-1.5 text-amber-400 hover:underline transition-colors cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Platform Estimate</span>

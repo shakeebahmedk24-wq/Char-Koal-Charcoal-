@@ -6,6 +6,7 @@ import {
   Phone,
   Calendar,
   Menu as MenuIcon,
+  ShoppingCart,
   ShoppingBag,
   Sliders,
   Clock,
@@ -181,15 +182,15 @@ export const Navbar: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Cart / Order toggle */}
+          {/* Cart / Order toggle - opens side cart drawer */}
           <button
             id="nav-cart-btn"
             onClick={() => setIsCartDrawerOpen(true)}
-            className="relative p-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all cursor-pointer"
-            title="View Table Order / Cart"
-            aria-label={`View Table Order (${totalCartCount} items)`}
+            className="relative p-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center"
+            title="View Cart & Table Order"
+            aria-label={`View Cart & Table Order (${totalCartCount} items)`}
           >
-            <ShoppingBag className="w-4 h-4" />
+            <ShoppingCart className="w-4 h-4" />
             {totalCartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-amber-500 text-neutral-950 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
                 {totalCartCount}
@@ -207,14 +208,18 @@ export const Navbar: React.FC = () => {
             <span>Book a Table</span>
           </button>
 
-          {/* Mobile Hamburger Drawer Trigger */}
+          {/* Off-Canvas Navigation Drawer Trigger */}
           <button
             id="mobile-offcanvas-trigger"
             onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden p-2.5 rounded-md bg-[#181d24] border border-neutral-700/80 text-white hover:text-amber-400 transition-colors cursor-pointer"
-            aria-label="Open mobile off-canvas navigation"
+            className="p-2.5 rounded-md bg-[#181d24] border border-neutral-700/80 text-white hover:text-amber-400 hover:border-amber-500/40 transition-colors cursor-pointer flex items-center gap-1.5"
+            aria-label="Open off-canvas navigation menu"
+            title="Open navigation menu"
           >
-            <MenuIcon className="w-6 h-6" />
+            <MenuIcon className="w-5 h-5 sm:w-5 sm:h-5 text-amber-400" />
+            <span className="hidden xl:inline text-xs font-semibold uppercase tracking-wider text-neutral-300">
+              Menu
+            </span>
           </button>
         </div>
       </div>

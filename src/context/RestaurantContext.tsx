@@ -65,6 +65,28 @@ interface RestaurantContextType {
 
 const RestaurantContext = createContext<RestaurantContextType | undefined>(undefined);
 
+function safeGet<T>(key: string, fallback: T): T {
+  try {
+    if (typeof window === 'undefined' || !window.localStorage) return fallback;
+    const saved = localStorage.getItem(key);
+    if (!saved) return fallback;
+    return JSON.parse(saved);
+  } catch (err) {
+    console.warn(`Could not read storage key "${key}":`, err);
+    return fallback;
+  }
+}
+
+function safeSet(key: string, value: unknown) {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+  } catch (err) {
+    console.warn(`Could not save storage key "${key}":`, err);
+  }
+}
+
 export const RestaurantProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentPage, setCurrentPageState] = useState<PageId>('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -74,62 +96,56 @@ export const RestaurantProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Load persistent or default data
-  const [menuItems, setMenuItems] = useState<MenuItem[]>(() => {
-    const saved = localStorage.getItem('charkoal_menu');
-    return saved ? JSON.parse(saved) : DEFAULT_MENU_ITEMS;
-  });
+  // Load persistent or default data safely
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(() =>
+    safeGet('charkoal_menu', DEFAULT_MENU_ITEMS)
+  );
 
-  const [banquetHalls, setBanquetHalls] = useState<BanquetHall[]>(() => {
-    const saved = localStorage.getItem('charkoal_banquet');
-    return saved ? JSON.parse(saved) : DEFAULT_BANQUET_HALLS;
-  });
+  const [banquetHalls, setBanquetHalls] = useState<BanquetHall[]>(() =>
+    safeGet('charkoal_banquet', DEFAULT_BANQUET_HALLS)
+  );
 
-  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => {
-    const saved = localStorage.getItem('charkoal_gallery');
-    return saved ? JSON.parse(saved) : DEFAULT_GALLERY;
-  });
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() =>
+    safeGet('charkoal_gallery', DEFAULT_GALLERY)
+  );
 
-  const [visitingHours, setVisitingHours] = useState<VisitingHourDay[]>(() => {
-    const saved = localStorage.getItem('charkoal_hours');
-    return saved ? JSON.parse(saved) : DEFAULT_VISITING_HOURS;
-  });
+  const [visitingHours, setVisitingHours] = useState<VisitingHourDay[]>(() =>
+    safeGet('charkoal_hours', DEFAULT_VISITING_HOURS)
+  );
 
   const [cateringPackages] = useState<CateringPackage[]>(DEFAULT_CATERING_PACKAGES);
 
-  const [reservations, setReservations] = useState<Reservation[]>(() => {
-    const saved = localStorage.getItem('charkoal_reservations');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [reservations, setReservations] = useState<Reservation[]>(() =>
+    safeGet('charkoal_reservations', [])
+  );
 
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('charkoal_cart');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [cart, setCart] = useState<CartItem[]>(() =>
+    safeGet('charkoal_cart', [])
+  );
 
-  // Sync to localStorage
+  // Sync to localStorage safely
   useEffect(() => {
-    localStorage.setItem('charkoal_menu', JSON.stringify(menuItems));
+    safeSet('charkoal_menu', menuItems);
   }, [menuItems]);
 
   useEffect(() => {
-    localStorage.setItem('charkoal_banquet', JSON.stringify(banquetHalls));
+    safeSet('charkoal_banquet', banquetHalls);
   }, [banquetHalls]);
 
   useEffect(() => {
-    localStorage.setItem('charkoal_gallery', JSON.stringify(galleryItems));
+    safeSet('charkoal_gallery', galleryItems);
   }, [galleryItems]);
 
   useEffect(() => {
-    localStorage.setItem('charkoal_hours', JSON.stringify(visitingHours));
+    safeSet('charkoal_hours', visitingHours);
   }, [visitingHours]);
 
   useEffect(() => {
-    localStorage.setItem('charkoal_reservations', JSON.stringify(reservations));
+    safeSet('charkoal_reservations', reservations);
   }, [reservations]);
 
   useEffect(() => {
-    localStorage.setItem('charkoal_cart', JSON.stringify(cart));
+    safeSet('charkoal_cart', cart);
   }, [cart]);
 
   const showToast = (msg: string) => {

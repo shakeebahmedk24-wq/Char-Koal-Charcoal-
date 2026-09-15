@@ -16,11 +16,12 @@ import {
   PhoneCall,
   ChevronRight,
   CheckCircle2,
-  FileDown
+  FileDown,
+  ShoppingCart
 } from 'lucide-react';
 
 export const Home: React.FC = () => {
-  const { setCurrentPage, menuItems, banquetHalls, addToCart } = useRestaurant();
+  const { setCurrentPage, menuItems, banquetHalls, addToCart, setIsCartDrawerOpen } = useRestaurant();
 
   // Quick reservation inputs on hero
   const [quickDate, setQuickDate] = useState(new Date().toISOString().split('T')[0]);
@@ -49,7 +50,7 @@ export const Home: React.FC = () => {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-600/15 via-transparent to-transparent pointer-events-none" />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center mt-6">
+        <AnimatedSection as="div" direction="up" duration={800} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center mt-6">
           {/* Eyebrow badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-[0.25em] mb-6 animate-fade-in shadow-[0_0_20px_rgba(217,119,6,0.2)]">
             <Flame className="w-3.5 h-3.5 text-amber-400" />
@@ -160,7 +161,7 @@ export const Home: React.FC = () => {
               <span>Menu Kit Brochure</span>
             </button>
           </div>
-        </div>
+        </AnimatedSection>
       </section>
 
       {/* 2. THE CHAR-KOAL PHILOSOPHY & ARTISANAL HEARTH */}
@@ -302,12 +303,15 @@ export const Home: React.FC = () => {
                   <div className="pt-2 border-t border-neutral-800 flex items-center justify-between">
                     <span className="hidden sm:inline text-[11px] text-neutral-500 font-mono">{dish.calories}</span>
                     <button
-                      onClick={() => addToCart(dish)}
+                      onClick={() => {
+                        addToCart(dish);
+                        setIsCartDrawerOpen(true);
+                      }}
                       className="w-full sm:w-auto text-[10px] sm:text-xs text-amber-400 hover:text-white font-medium flex items-center justify-center sm:justify-start gap-1 py-1 sm:py-0 transition-colors cursor-pointer"
                     >
+                      <ShoppingCart className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       <span className="sm:hidden">Order</span>
                       <span className="hidden sm:inline">Order to Table</span>
-                      <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     </button>
                   </div>
                 </div>

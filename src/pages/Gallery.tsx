@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
 import { GalleryItem } from '../types/restaurant';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   Image as ImageIcon,
   Flame,
@@ -47,7 +48,7 @@ export const Gallery: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Header Banner */}
-      <section className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
+      <AnimatedSection as="section" direction="fade" duration={800} className="relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">
             <Camera className="w-3.5 h-3.5" />
@@ -60,7 +61,7 @@ export const Gallery: React.FC = () => {
             Witness the glow of white oak embers, architectural banquets, and culinary artistry captured in vivid detail.
           </p>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Filter Tabs */}
       <section className="sticky top-16 z-30 bg-[#0e1218]/95 backdrop-blur-md border-b border-[#212734] py-4">
@@ -82,10 +83,13 @@ export const Gallery: React.FC = () => {
       </section>
 
       {/* Masonry / Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <AnimatedSection as="section" direction="up" delay={80} className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPhotos.map(photo => (
-            <div
+          {filteredPhotos.map((photo, idx) => (
+            <AnimatedSection
+              as="div"
+              direction="up"
+              delay={idx * 60}
               key={photo.id}
               onClick={() => setSelectedPhoto(photo)}
               className="group relative h-80 rounded-xl overflow-hidden border border-neutral-800 bg-[#12161f] cursor-pointer shadow-lg hover:border-amber-500/50 transition-all duration-300"
@@ -112,10 +116,10 @@ export const Gallery: React.FC = () => {
               <div className="absolute top-3 right-3 p-2 rounded-full bg-black/60 backdrop-blur-sm text-neutral-300 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Maximize2 className="w-4 h-4" />
               </div>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Full-Screen Lightbox Modal */}
       {selectedPhoto && (

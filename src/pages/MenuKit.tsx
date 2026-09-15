@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRestaurant } from '../context/RestaurantContext';
+import { AnimatedSection } from '../components/AnimatedSection';
 import {
   FileText,
   Printer,
@@ -29,7 +30,7 @@ export const MenuKit: React.FC = () => {
   return (
     <div className="pt-24 pb-20 min-h-screen bg-[#0a0c0f]">
       {/* Header Banner - No Print */}
-      <section className="no-print relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
+      <AnimatedSection as="section" direction="fade" duration={800} className="no-print relative py-16 bg-[#0d1015] border-b border-[#1f242d] text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-[0.2em] mb-4">
             <FileText className="w-3.5 h-3.5" />
@@ -59,7 +60,7 @@ export const MenuKit: React.FC = () => {
             </button>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Filter Tabs - No Print */}
       <div className="no-print max-w-4xl mx-auto px-4 sm:px-6 py-6 flex justify-center gap-2">
@@ -96,7 +97,7 @@ export const MenuKit: React.FC = () => {
       </div>
 
       {/* Printable Menu Kit Document */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6">
+      <AnimatedSection as="section" direction="up" delay={80} className="max-w-4xl mx-auto px-4 sm:px-6">
         <div
           id="printable-menu-kit-doc"
           className="bg-[#11141c] border border-neutral-800 rounded-2xl p-8 sm:p-12 shadow-2xl space-y-12 print:bg-white print:text-black print:p-0 print:border-none print:shadow-none"
@@ -246,7 +247,7 @@ export const MenuKit: React.FC = () => {
             </p>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };
